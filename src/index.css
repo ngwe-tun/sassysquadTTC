@@ -23,3 +23,14 @@
 .hover-shadow:hover .card-img-hover {
   transform: scale(1.1);
 }
+
+/* Makes the emergency buttons "pop" when hovered */
+.hover-shadow:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  background-color: #fff !important; /*Brightens the background*/
+  cursor: pointer;
+}
+.transition {
+  transition: all 0.2s ease-in-out;
+}
