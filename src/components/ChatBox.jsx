@@ -1,141 +1,157 @@
-// src/components/ChatBox.jsx
+import { useState, useEffect, useRef } from 'react';
+import { Card, Form, Button, Spinner } from 'react-bootstrap';
+import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom'; // Required for receiving booking data
 import { getGeminiResponse } from '../services/gemini';
 import { getWeather } from '../services/weather';
-import { useState } from 'react';
-import { Card, Form, Button, Spinner } from 'react-bootstrap';
-import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa'; // Icons
+
+// 1. Weather Icon Helper (Visual Crossing names -> React Icons)
+import { WiDaySunny, WiCloudy, WiRain, WiSnow, WiFog, WiNightAltPartlyCloudy } from "react-icons/wi";
+
+const renderWeatherIcon = (iconName) => {
+  if (!iconName) return null;
+  const name = iconName.toLowerCase();
+  if (name.includes("rain")) return <WiRain size={40} color="#007bff" />;
+  if (name.includes("night") && name.includes("cloud")) return <WiNightAltPartlyCloudy size={40} color="#6c757d" />;
+  if (name.includes("cloud")) return <WiCloudy size={40} color="#6c757d" />;
+  if (name.includes("clear") || name.includes("sun")) return <WiDaySunny size={40} color="#ffc107" />;
+  return <WiFog size={40} color="#adb5bd" />;
+};
 
 const ChatBox = () => {
-  // 1. State to store the conversation
-  // We start with a "Welcome" message to test the UI
+  const location = useLocation();
+  const hasAutoSent = useRef(false); // Prevents duplicate auto-sending on re-renders
+  
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Sawasdee krub! 🙏 I am your Sassy Squad travel assistant. Ask me about hotels, tours, or the weather in Thailand!",
+      text: "Sawasdee krub! 🙏 I am your Sassy Squad travel assistant. How can I help you with your Thailand trip today?",
       sender: "bot"
     }
   ]);
 
-  const [input, setInput] = useState(""); // Stores what the user is typing
-  const [isLoading, setIsLoading] = useState(false); // For the "Typing..." effect
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  // 2. Function to handle sending a message
-  const handleSend = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(scrollToBottom, [messages]);
 
-    // 1. Add User Message to UI
-    const userMessage = { id: Date.now(), text: input, sender: "user" };
+  // --- 2. BOOKING INTEGRATION: Detect incoming message from Tours.jsx ---
+  useEffect(() => {
+    if (location.state?.prefilledMessage && !hasAutoSent.current) {
+      handleSend(null, location.state.prefilledMessage);
+      hasAutoSent.current = true;
+    }
+  }, [location]);
+
+  // 3. Main handleSend (Supports both user typing and "Book Now" clicks)
+  const handleSend = async (e, directText = null) => {
+    if (e) e.preventDefault();
+    
+    const messageText = directText || input;
+    if (!messageText.trim()) return;
+
+    // Add User Message
+    const userMessage = { id: Date.now(), text: messageText, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     
-    const originalInput = input;
     setInput(""); 
     setIsLoading(true);
 
     try {
-      let finalPrompt = originalInput;
+      let finalPrompt = messageText;
+      let weatherIconName = null;
 
-      // 2. CHECK: Is the user asking about weather?
-      if (originalInput.toLowerCase().includes("weather")) {
-        // Default to Bangkok, or try to find a city name (simplified for demo)
-        // In a full app, you'd parse the city name more carefully
-        const weatherData = await getWeather("Bangkok"); 
-
+      // Weather Logic (Bottom-Up Data Integration)
+      if (messageText.toLowerCase().includes("weather")) {
+        const weatherData = await getWeather("Bangkok");
         if (weatherData) {
-          // 3. INJECT: Add the real data to the prompt "behind the scenes"
-          // The user doesn't see this, but the Bot does!
-          finalPrompt = `
-            Context: The current weather in ${weatherData.city} is ${weatherData.temp}°C 
-            with ${weatherData.description}.
-            
-            User Question: ${originalInput}
-          `;
+          finalPrompt = `Context: The current weather in ${weatherData.city} is ${weatherData.temp}°C and ${weatherData.condition}. User Question: ${messageText}`;
+          weatherIconName = weatherData.icon;
         }
       }
 
-      // 4. Send the "Enriched" prompt to Gemini
+      // Get Gemini Response
       const botText = await getGeminiResponse(finalPrompt);
 
-      const botReply = {
+      setMessages((prev) => [...prev, {
         id: Date.now() + 1,
         text: botText,
-        sender: "bot"
-      };
-      setMessages((prev) => [...prev, botReply]);
+        sender: "bot",
+        iconName: weatherIconName
+      }]);
 
     } catch (error) {
-      const errorMsg = { id: Date.now()+1, text: "My brain is offline! 🔌", sender: "bot" };
-      setMessages((prev) => [...prev, errorMsg]);
+      setMessages((prev) => [...prev, { 
+        id: Date.now() + 1, 
+        text: "Sorry, I'm having a bit of a technical glitch. Please try again! 🔌", 
+        sender: "bot" 
+      }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Card className="shadow-sm" style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <Card.Header className="bg-primary text-white d-flex align-items-center gap-2">
+    <Card className="shadow-sm mt-4 border-0" style={{ maxWidth: '700px', margin: '0 auto', borderRadius: '20px' }}>
+      <Card.Header className="bg-primary text-white d-flex align-items-center gap-2 py-3" style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
         <FaRobot size={24} />
-        <h5 className="mb-0">Travel Assistant</h5>
+        <h5 className="mb-0 fw-bold">Sassy Squad Assistant</h5>
       </Card.Header>
 
-      {/* 3. Message Display Area */}
       <Card.Body 
-        style={{ height: '400px', overflowY: 'auto', backgroundColor: '#f8f9fa' }}
+        style={{ height: '450px', overflowY: 'auto', backgroundColor: '#fcfcfc' }}
         className="d-flex flex-column gap-3"
       >
         {messages.map((msg) => (
-          <div 
-            key={msg.id} 
-            className={`d-flex ${msg.sender === "user" ? "justify-content-end" : "justify-content-start"}`}
-          >
-            {/* Bot Icon (Only show on left) */}
+          <div key={msg.id} className={`d-flex ${msg.sender === "user" ? "justify-content-end" : "justify-content-start"}`}>
             {msg.sender === "bot" && (
-              <div className="me-2 text-primary mt-1">
-                <FaRobot size={24} />
-              </div>
+              <div className="me-2 text-primary mt-1"><FaRobot size={22} /></div>
             )}
-
-            {/* Message Bubble */}
             <div 
-              className={`p-3 rounded-4 ${
+              className={`p-3 shadow-sm ${
                 msg.sender === "user" 
-                  ? "bg-primary text-white rounded-bottom-right-0" 
-                  : "bg-white border text-dark rounded-bottom-left-0"
+                  ? "bg-primary text-white rounded-4 rounded-bottom-right-0" 
+                  : "bg-white text-dark border rounded-4 rounded-bottom-left-0"
               }`}
-              style={{ maxWidth: '75%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}
+              style={{ maxWidth: '80%' }}
             >
-              {msg.text}
+              <div>{msg.text}</div>
+              {msg.iconName && (
+                <div className="mt-2 p-2 bg-light rounded-3 text-center border">
+                  {renderWeatherIcon(msg.iconName)}
+                  <div className="small text-muted fw-bold">Current Weather</div>
+                </div>
+              )}
             </div>
-
-            {/* User Icon (Only show on right) */}
             {msg.sender === "user" && (
-              <div className="ms-2 text-secondary mt-1">
-                <FaUser size={20} />
-              </div>
+              <div className="ms-2 text-secondary mt-1"><FaUser size={18} /></div>
             )}
           </div>
         ))}
-
-        {/* Loading Indicator */}
         {isLoading && (
-          <div className="text-muted small ms-2">
-            <Spinner animation="grow" size="sm" className="me-1" />
-            Thinking...
+          <div className="text-muted small ms-2 d-flex align-items-center gap-2">
+            <Spinner animation="grow" size="sm" variant="primary" />
+            Sassy Squad is typing...
           </div>
         )}
+        <div ref={messagesEndRef} />
       </Card.Body>
 
-      {/* 4. Input Area */}
-      <Card.Footer className="bg-white">
+      <Card.Footer className="bg-white p-3" style={{ borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px' }}>
         <Form onSubmit={handleSend} className="d-flex gap-2">
           <Form.Control
             type="text"
-            placeholder="Ask about your trip..."
+            placeholder="Ask me anything..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="rounded-pill"
+            className="rounded-pill px-4 border-2 shadow-none"
+            disabled={isLoading}
           />
-          <Button type="submit" variant="primary" className="rounded-circle" disabled={isLoading}>
+          <Button type="submit" variant="primary" className="rounded-circle d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }} disabled={isLoading}>
             <FaPaperPlane />
           </Button>
         </Form>
