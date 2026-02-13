@@ -18,8 +18,11 @@ export const getWeather = async (city = 'Bangkok') => {
 
     return {
       temp: current.temp,
+      feelsLike: current.feelslike,
       condition: current.conditions, // e.g., "Rain, Overcast"
       description: response.data.description, // A nice full sentence summary
+      humidity: current.humidity,
+      windSpeed: current.windspeed,
       city: response.data.address,
       icon: current.icon // Returns a string like "rain" or "cloudy"
     };

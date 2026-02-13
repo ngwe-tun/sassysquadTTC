@@ -1,31 +1,50 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card, Form, Button, Spinner } from 'react-bootstrap';
 import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom'; // Required for receiving booking data
+import { useLocation } from 'react-router-dom';
 import { getGeminiResponse } from '../services/gemini';
 import { getWeather } from '../services/weather';
 
-// 1. Weather Icon Helper (Visual Crossing names -> React Icons)
+// Weather Icon Helper
 import { WiDaySunny, WiCloudy, WiRain, WiSnow, WiFog, WiNightAltPartlyCloudy } from "react-icons/wi";
 
 const renderWeatherIcon = (iconName) => {
   if (!iconName) return null;
   const name = iconName.toLowerCase();
-  if (name.includes("rain")) return <WiRain size={40} color="#007bff" />;
-  if (name.includes("night") && name.includes("cloud")) return <WiNightAltPartlyCloudy size={40} color="#6c757d" />;
-  if (name.includes("cloud")) return <WiCloudy size={40} color="#6c757d" />;
-  if (name.includes("clear") || name.includes("sun")) return <WiDaySunny size={40} color="#ffc107" />;
-  return <WiFog size={40} color="#adb5bd" />;
+  if (name.includes("rain")) return <WiRain size={40} color="#3498DB" />;
+  if (name.includes("night") && name.includes("cloud")) return <WiNightAltPartlyCloudy size={40} color="#7F8C8D" />;
+  if (name.includes("cloud")) return <WiCloudy size={40} color="#7F8C8D" />;
+  if (name.includes("clear") || name.includes("sun")) return <WiDaySunny size={40} color="#F39C12" />;
+  return <WiFog size={40} color="#95A5A6" />;
 };
 
-const ChatBox = () => {
+// Extract city name from user message
+const extractCityFromMessage = (message) => {
+  const thaiCities = [
+    'Bangkok', 'Phuket', 'Chiang Mai', 'Pattaya', 'Krabi',
+    'Koh Samui', 'Ayutthaya', 'Hua Hin', 'Chiang Rai',
+    'Kanchanaburi', 'Sukhothai', 'Pai'
+  ];
+
+  const lowerMessage = message.toLowerCase();
+
+  for (const city of thaiCities) {
+    if (lowerMessage.includes(city.toLowerCase())) {
+      return city;
+    }
+  }
+
+  return 'Bangkok'; // Default to Bangkok if no city mentioned
+};
+
+const ChatBox = ({ suggestionInput }) => {
   const location = useLocation();
-  const hasAutoSent = useRef(false); // Prevents duplicate auto-sending on re-renders
-  
+  const hasAutoSent = useRef(false);
+
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Sawasdee krub! 🙏 I am your Sassy Squad travel assistant. How can I help you with your Thailand trip today?",
+      text: "Hello! I am your Sassy Squad travel assistant. How can I help you with your Thailand trip today?",
       sender: "bot"
     }
   ]);
@@ -33,13 +52,27 @@ const ChatBox = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const chatBodyRef = useRef(null);
+  const isInitialMount = useRef(true);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  useEffect(scrollToBottom, [messages]);
 
-  // --- 2. BOOKING INTEGRATION: Detect incoming message from Tours.jsx ---
+  useEffect(() => {
+    // On initial mount, scroll to top
+    if (isInitialMount.current) {
+      if (chatBodyRef.current) {
+        chatBodyRef.current.scrollTop = 0;
+      }
+      isInitialMount.current = false;
+      return;
+    }
+    // Only scroll to bottom when new messages are added
+    scrollToBottom();
+  }, [messages]);
+
+  // Booking integration: Detect incoming message from Tours.jsx
   useEffect(() => {
     if (location.state?.prefilledMessage && !hasAutoSent.current) {
       handleSend(null, location.state.prefilledMessage);
@@ -47,29 +80,44 @@ const ChatBox = () => {
     }
   }, [location]);
 
-  // 3. Main handleSend (Supports both user typing and "Book Now" clicks)
+  // Handle suggestion clicks from sidebar
+  useEffect(() => {
+    if (suggestionInput) {
+      setInput(suggestionInput);
+    }
+  }, [suggestionInput]);
+
+  // Main handleSend (Supports both user typing and "Book Now" clicks)
   const handleSend = async (e, directText = null) => {
     if (e) e.preventDefault();
-    
+
     const messageText = directText || input;
     if (!messageText.trim()) return;
 
     // Add User Message
     const userMessage = { id: Date.now(), text: messageText, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
-    
-    setInput(""); 
+
+    setInput("");
     setIsLoading(true);
 
     try {
       let finalPrompt = messageText;
       let weatherIconName = null;
 
-      // Weather Logic (Bottom-Up Data Integration)
+      // Weather Logic - Enhanced with city extraction
       if (messageText.toLowerCase().includes("weather")) {
-        const weatherData = await getWeather("Bangkok");
+        const city = extractCityFromMessage(messageText);
+        const weatherData = await getWeather(city);
         if (weatherData) {
-          finalPrompt = `Context: The current weather in ${weatherData.city} is ${weatherData.temp}°C and ${weatherData.condition}. User Question: ${messageText}`;
+          finalPrompt = `Context: Current weather in ${weatherData.city}:
+- Temperature: ${weatherData.temp}°C (feels like ${weatherData.feelsLike}°C)
+- Conditions: ${weatherData.condition}
+- Humidity: ${weatherData.humidity}%
+- Wind Speed: ${weatherData.windSpeed} km/h
+- Summary: ${weatherData.description}
+
+User Question: ${messageText}`;
           weatherIconName = weatherData.icon;
         }
       }
@@ -85,10 +133,10 @@ const ChatBox = () => {
       }]);
 
     } catch (error) {
-      setMessages((prev) => [...prev, { 
-        id: Date.now() + 1, 
-        text: "Sorry, I'm having a bit of a technical glitch. Please try again! 🔌", 
-        sender: "bot" 
+      setMessages((prev) => [...prev, {
+        id: Date.now() + 1,
+        text: "Sorry, I'm having a technical issue. Please try again.",
+        sender: "bot"
       }]);
     } finally {
       setIsLoading(false);
@@ -96,62 +144,84 @@ const ChatBox = () => {
   };
 
   return (
-    <Card className="shadow-sm mt-4 border-0" style={{ maxWidth: '700px', margin: '0 auto', borderRadius: '20px' }}>
-      <Card.Header className="bg-primary text-white d-flex align-items-center gap-2 py-3" style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
-        <FaRobot size={24} />
-        <h5 className="mb-0 fw-bold">Sassy Squad Assistant</h5>
+    <Card className="shadow-sm border" style={{ maxWidth: '800px', margin: '0 auto', borderRadius: 'var(--radius-lg)' }}>
+      <Card.Header className="d-flex align-items-center gap-2 py-3" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-white)', borderTopLeftRadius: 'var(--radius-lg)', borderTopRightRadius: 'var(--radius-lg)' }}>
+        <FaRobot size={22} />
+        <h5 className="mb-0 fw-semibold">Sassy Squad Assistant</h5>
       </Card.Header>
 
-      <Card.Body 
-        style={{ height: '450px', overflowY: 'auto', backgroundColor: '#fcfcfc' }}
-        className="d-flex flex-column gap-3"
+      <Card.Body
+        ref={chatBodyRef}
+        style={{ height: '500px', overflowY: 'auto', backgroundColor: 'var(--color-background)' }}
+        className="d-flex flex-column gap-3 p-4"
       >
         {messages.map((msg) => (
           <div key={msg.id} className={`d-flex ${msg.sender === "user" ? "justify-content-end" : "justify-content-start"}`}>
             {msg.sender === "bot" && (
-              <div className="me-2 text-primary mt-1"><FaRobot size={22} /></div>
+              <div className="me-2 mt-1" style={{ color: 'var(--color-primary)' }}><FaRobot size={20} /></div>
             )}
-            <div 
-              className={`p-3 shadow-sm ${
-                msg.sender === "user" 
-                  ? "bg-primary text-white rounded-4 rounded-bottom-right-0" 
-                  : "bg-white text-dark border rounded-4 rounded-bottom-left-0"
-              }`}
-              style={{ maxWidth: '80%' }}
+            <div
+              className={`p-3 shadow-sm ${msg.sender === "user"
+                ? "text-white"
+                : "bg-white text-dark border"
+                }`}
+              style={{
+                maxWidth: '75%',
+                backgroundColor: msg.sender === "user" ? 'var(--color-primary)' : 'var(--color-white)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: 'var(--font-size-base)',
+                lineHeight: '1.6'
+              }}
             >
               <div>{msg.text}</div>
               {msg.iconName && (
-                <div className="mt-2 p-2 bg-light rounded-3 text-center border">
+                <div className="mt-2 p-2 rounded text-center border" style={{ backgroundColor: 'var(--color-background)' }}>
                   {renderWeatherIcon(msg.iconName)}
-                  <div className="small text-muted fw-bold">Current Weather</div>
+                  <div className="small fw-semibold" style={{ color: 'var(--color-text-muted)' }}>Current Weather</div>
                 </div>
               )}
             </div>
             {msg.sender === "user" && (
-              <div className="ms-2 text-secondary mt-1"><FaUser size={18} /></div>
+              <div className="ms-2 mt-1" style={{ color: 'var(--color-text-muted)' }}><FaUser size={16} /></div>
             )}
           </div>
         ))}
         {isLoading && (
-          <div className="text-muted small ms-2 d-flex align-items-center gap-2">
-            <Spinner animation="grow" size="sm" variant="primary" />
+          <div className="small ms-2 d-flex align-items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
+            <Spinner animation="grow" size="sm" style={{ color: 'var(--color-primary)' }} />
             Sassy Squad is typing...
           </div>
         )}
         <div ref={messagesEndRef} />
       </Card.Body>
 
-      <Card.Footer className="bg-white p-3" style={{ borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px' }}>
+      <Card.Footer className="bg-white p-3" style={{ borderBottomLeftRadius: 'var(--radius-lg)', borderBottomRightRadius: 'var(--radius-lg)', borderTop: '1px solid var(--color-border)' }}>
         <Form onSubmit={handleSend} className="d-flex gap-2">
           <Form.Control
             type="text"
-            placeholder="Ask me anything..."
+            placeholder="Ask me anything about Thailand..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="rounded-pill px-4 border-2 shadow-none"
+            className="px-4 shadow-none"
+            style={{
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--color-border)',
+              fontSize: 'var(--font-size-base)'
+            }}
             disabled={isLoading}
           />
-          <Button type="submit" variant="primary" className="rounded-circle d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }} disabled={isLoading}>
+          <Button
+            type="submit"
+            className="d-flex align-items-center justify-content-center"
+            style={{
+              width: '45px',
+              height: '45px',
+              borderRadius: 'var(--radius-sm)',
+              backgroundColor: 'var(--color-primary)',
+              borderColor: 'var(--color-primary)'
+            }}
+            disabled={isLoading}
+          >
             <FaPaperPlane />
           </Button>
         </Form>

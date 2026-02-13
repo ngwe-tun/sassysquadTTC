@@ -1,29 +1,32 @@
 import ChatBox from './components/ChatBox';
+import ChatSidebar from './components/ChatSidebar';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Container, Navbar, Nav, Button, Row, Col } from 'react-bootstrap';
 import Tours from './pages/Tours';
-import CurrencyWidget from './components/CurrencyWidget'; 
-import EmergencyWidget from './components/EmergencyWidget'; 
+import CurrencyWidget from './components/CurrencyWidget';
+import EmergencyWidget from './components/EmergencyWidget';
+import TravelToolsSection from './components/TravelToolsSection';
+import { useState, useRef, useEffect } from 'react';
 
 const Home = () => (
   <Container className="py-5">
     {/* --- HERO SECTION --- */}
-    <div className="p-5 mb-5 bg-white rounded-4 shadow-sm border text-center position-relative overflow-hidden">
-      <div className="position-relative z-1">
-        <h1 className="display-4 fw-bold text-primary mb-3">
-          Explore Thailand with Sassy Squad 🇹🇭
+    <div className="p-5 mb-5 bg-white shadow-sm border text-center position-relative" style={{ borderRadius: 'var(--radius-lg)' }}>
+      <div className="position-relative">
+        <h1 className="fw-bold mb-3" style={{ fontSize: 'var(--font-size-3xl)', color: 'var(--color-primary)', letterSpacing: '-0.5px' }}>
+          Explore Thailand with Sassy Squad
         </h1>
-        <p className="lead text-muted mb-4 mx-auto" style={{ maxWidth: '700px' }}>
+        <p className="mb-4 mx-auto" style={{ maxWidth: '650px', fontSize: 'var(--font-size-lg)', color: 'var(--color-text-muted)', lineHeight: '1.7' }}>
           Your centralized platform for instant responses, hotel bookings, and intelligent recommendations.
         </p>
-        <div className="d-flex justify-content-center gap-3">
+        <div className="d-flex justify-content-center gap-3 mt-4">
           <Link to="/chat">
-            <Button variant="primary" size="lg" className="px-5 rounded-pill shadow-sm">
+            <Button variant="primary" size="lg" className="px-5">
               Start AI Chat
             </Button>
           </Link>
           <Link to="/tours">
-            <Button variant="outline-dark" size="lg" className="px-5 rounded-pill">
+            <Button variant="outline-dark" size="lg" className="px-5">
               Browse Tours
             </Button>
           </Link>
@@ -47,25 +50,63 @@ const Home = () => (
         </div>
       </Col>
     </Row>
+
+    {/* --- TRAVEL TOOLS SECTION --- */}
+    <TravelToolsSection />
   </Container>
 );
 
-// Placeholder wrapper for Chat page
-const Chat = () => (
-  <div className="py-5">
-    <h2 className="text-center mb-4 fw-bold text-primary">Plan Your Trip with AI</h2>
-    <ChatBox />
-  </div>
-);
+// Chat page wrapper with sidebar
+const Chat = () => {
+  const [chatInput, setChatInput] = useState('');
+  const chatBoxRef = useRef(null);
+
+  // Scroll to top when Chat page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleSuggestionClick = (suggestion) => {
+    // This will be passed to ChatBox to handle suggestion clicks
+    setChatInput(suggestion);
+  };
+
+  return (
+    <Container className="py-5">
+      {/* Professional Header */}
+      <div className="text-center mb-4">
+        <h1 className="fw-bold mb-2" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-2xl)' }}>
+          AI Travel Assistant
+        </h1>
+        <p className="mb-0" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)', maxWidth: '600px', margin: '0 auto' }}>
+          Get instant answers about Thailand travel, weather, destinations, and personalized recommendations
+        </p>
+      </div>
+
+      {/* Two-column layout */}
+      <Row className="g-4">
+        {/* Main Chat - Left Column */}
+        <Col lg={8}>
+          <ChatBox ref={chatBoxRef} suggestionInput={chatInput} />
+        </Col>
+
+        {/* Sidebar - Right Column */}
+        <Col lg={4}>
+          <ChatSidebar onSuggestionClick={handleSuggestionClick} />
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 function App() {
   return (
     <Router>
       {/* Navbar: Sticky & branded */}
-      <Navbar bg="primary" variant="dark" expand="lg" className="mb-4 shadow-sm sticky-top">
+      <Navbar bg="white" variant="light" expand="lg" className="mb-4 sticky-top">
         <Container>
-          <Navbar.Brand as={Link} to="/" className="fw-bold d-flex align-items-center gap-2">
-            ✈️ Sassy Squad
+          <Navbar.Brand as={Link} to="/" className="fw-bold">
+            Sassy Squad
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -86,10 +127,10 @@ function App() {
           <Route path="/tours" element={<Tours />} />
         </Routes>
       </Container>
-      
+
       {/* Footer */}
-      <footer className="text-center py-4 text-muted mt-5 border-top">
-        <small>© 2026 Sassy Squad Travel. Built with React & Gemini AI.</small>
+      <footer className="text-center mt-5">
+        <p className="mb-0" style={{ fontSize: 'var(--font-size-sm)' }}>© 2026 Sassy Squad Travel. Built with React & Gemini AI.</p>
       </footer>
     </Router>
   );

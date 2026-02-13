@@ -1,36 +1,273 @@
-.hover-shadow:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
-  transition: all 0.3s ease-in-out;
+/* ========================================
+   PROFESSIONAL DESIGN SYSTEM
+   ======================================== */
+
+/* Color Palette */
+:root {
+  --color-primary: #2C3E50;
+  /* Dark slate */
+  --color-secondary: #34495E;
+  /* Charcoal */
+  --color-accent: #3498DB;
+  /* Subtle blue */
+  --color-background: #F8F9FA;
+  /* Light gray */
+  --color-text: #2C3E50;
+  /* Dark slate */
+  --color-text-muted: #7F8C8D;
+  /* Gray */
+  --color-border: #E0E0E0;
+  /* Light border */
+  --color-white: #FFFFFF;
+  --color-emergency: #C0392B;
+  /* Muted red for emergencies */
+
+  /* Spacing Scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Typography */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 2.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
+
+/* ========================================
+   GLOBAL OVERRIDES
+   ======================================== */
+
+body {
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+/* Professional Card Styling */
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.card-header {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 600;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.card-body {
+  padding: var(--spacing-lg);
+}
+
+/* Professional Button Styling */
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline-dark {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+/* Professional Navbar */
+.navbar {
+  background-color: var(--color-white) !important;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-md) 0;
+}
+
+.navbar-brand {
+  color: var(--color-primary) !important;
+  font-weight: 700;
+  font-size: var(--font-size-xl);
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  color: var(--color-text) !important;
+  font-weight: 500;
+  position: relative;
+  transition: color var(--transition-base);
+}
+
+.nav-link:hover {
+  color: var(--color-accent) !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: all var(--transition-base);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Subtle Hover Effect for Cards */
+.hover-lift {
+  transition: all var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Smooth Transitions */
 .transition {
-  transition: all 0.3s ease-in-out;
+  transition: all var(--transition-base);
+}
+
+/* Professional Shadow */
+.shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* Text Utilities */
+.text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+/* Professional Table Styling */
+.table {
+  color: var(--color-text);
+}
+
+.table thead {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--transition-fast);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(52, 73, 94, 0.02);
+}
+
+/* Emergency Widget Specific */
+.emergency-card-header {
+  background-color: var(--color-emergency);
+  color: var(--color-white);
+}
+
+/* Professional Form Controls */
+.form-control,
+.form-select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  color: var(--color-text);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Professional Badge */
+.badge {
+  font-weight: 500;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+/* Footer Styling */
+footer {
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: var(--spacing-xl) 0;
+}
+
+/* Tour Card Hover Effects */
+.hover-shadow {
+  transition: all 0.3s ease;
 }
 
 .hover-shadow:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
-}
-
-.transition {
-  transition: all 0.3s ease-in-out;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
 .card-img-hover {
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 .hover-shadow:hover .card-img-hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
-/* Makes the emergency buttons "pop" when hovered */
-.hover-shadow:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  background-color: #fff !important; /*Brightens the background*/
-  cursor: pointer;
-}
-.transition {
-  transition: all 0.2s ease-in-out;
+/* Smooth button hover */
+.hover-shadow:hover .btn-outline-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
 }

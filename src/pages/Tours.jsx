@@ -131,7 +131,7 @@ const Tours = () => {
     setSelectedTour(tour);
     setShowModal(true);
   };
-  
+
   const handleClose = () => setShowModal(false);
 
   const handleBookNow = () => {
@@ -143,8 +143,12 @@ const Tours = () => {
   return (
     <Container className="py-5">
       <div className="text-center mb-5">
-        <h2 className="fw-bold display-5 text-primary">Discover Thailand 🇹🇭</h2>
-        <p className="lead text-muted">Curated experiences for every type of traveler.</p>
+        <h1 className="fw-bold mb-2" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-2xl)' }}>
+          Thailand Tour Packages
+        </h1>
+        <p className="mb-0" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)', maxWidth: '600px', margin: '0 auto' }}>
+          Curated experiences for every type of traveler
+        </p>
       </div>
 
       <Row className="g-4">
@@ -152,16 +156,16 @@ const Tours = () => {
           <Col key={pkg.id} md={6} lg={4}>
             <Card className="h-100 border-0 shadow-sm hover-shadow transition" onClick={() => handleShowDetails(pkg)} style={{ cursor: 'pointer' }}>
               <div className="overflow-hidden rounded-top position-relative">
-                <Card.Img 
-                  variant="top" 
-                  src={pkg.img} 
+                <Card.Img
+                  variant="top"
+                  src={pkg.img}
                   style={{ height: '240px', objectFit: 'cover' }}
                   className="card-img-hover"
                 />
                 <div className="position-absolute top-0 end-0 m-3">
-                    <Badge bg="warning" text="dark" className="shadow-sm d-flex align-items-center gap-1 py-2 px-3">
-                        <FaStar /> {pkg.rating}
-                    </Badge>
+                  <Badge bg="light" className="shadow-sm d-flex align-items-center gap-1 py-2 px-3 border" style={{ color: 'var(--color-text)', fontWeight: 500 }}>
+                    <FaStar style={{ color: '#F39C12' }} /> {pkg.rating}
+                  </Badge>
                 </div>
               </div>
               <Card.Body className="d-flex flex-column">
@@ -183,7 +187,7 @@ const Tours = () => {
                     <span className="text-muted small d-block">From</span>
                     <span className="fw-bold fs-5 text-primary">{pkg.price}</span>
                   </div>
-                  <Button variant="outline-primary" size="sm" className="rounded-pill px-3">View Details</Button>
+                  <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>View Details</Button>
                 </div>
               </Card.Body>
             </Card>
@@ -199,22 +203,22 @@ const Tours = () => {
               <Modal.Title className="fw-bold">{selectedTour.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body className="px-4">
-              <img 
-                src={selectedTour.img} 
-                className="w-100 rounded-4 mb-4 object-fit-cover shadow-sm" 
-                style={{ height: '300px' }} 
+              <img
+                src={selectedTour.img}
+                className="w-100 rounded-4 mb-4 object-fit-cover shadow-sm"
+                style={{ height: '300px' }}
                 alt={selectedTour.title}
               />
 
               <Row>
                 {/* Left: Itinerary Timeline */}
                 <Col md={7}>
-                  <h5 className="fw-bold mb-4 d-flex align-items-center"><FaCamera className="me-2 text-primary"/>Experience Highlights</h5>
+                  <h5 className="fw-bold mb-4 d-flex align-items-center"><FaCamera className="me-2 text-primary" />Experience Highlights</h5>
                   <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: '#e9ecef' }}>
                     {selectedTour.itinerary.map((item, index) => (
                       <div key={index} className="mb-4 position-relative">
-                        <span 
-                          className="position-absolute bg-white border border-primary border-2 rounded-circle" 
+                        <span
+                          className="position-absolute bg-white border border-primary border-2 rounded-circle"
                           style={{ width: '16px', height: '16px', left: '-33px', top: '4px' }}
                         ></span>
                         <strong className="d-block text-dark">{item.time}</strong>
@@ -227,7 +231,7 @@ const Tours = () => {
                 {/* Right: Pricing & Inclusions Box */}
                 <Col md={5}>
                   <div className="bg-light p-4 rounded-4 h-100 border">
-                    <h6 className="fw-bold mb-3 d-flex align-items-center"><FaCheckCircle className="me-2 text-success"/>What's Included</h6>
+                    <h6 className="fw-bold mb-3 d-flex align-items-center"><FaCheckCircle className="me-2 text-success" />What's Included</h6>
                     <ul className="list-unstyled mb-4">
                       {selectedTour.inclusions.map((inc, i) => (
                         <li key={i} className="mb-2 small d-flex align-items-center text-muted">
@@ -235,23 +239,24 @@ const Tours = () => {
                         </li>
                       ))}
                     </ul>
-                    
-                    <hr className="my-4"/>
-                    
+
+                    <hr className="my-4" />
+
                     <div className="text-center">
-                       <p className="text-muted small mb-1">Total Price per Person</p>
-                       <h2 className="fw-bold text-primary mb-3">{selectedTour.price}</h2>
-                       <Button 
-                         variant="primary" 
-                         size="lg"
-                         onClick={handleBookNow} 
-                         className="w-100 rounded-pill shadow hover-scale"
-                       >
-                         Book Now
-                       </Button>
-                       <p className="text-muted x-small mt-2" style={{ fontSize: '0.75rem' }}>
-                         *You will be redirected to our AI Assistant to finalize details.
-                       </p>
+                      <p className="text-muted small mb-1">Total Price per Person</p>
+                      <h2 className="fw-bold text-primary mb-3">{selectedTour.price}</h2>
+                      <Button
+                        variant="primary"
+                        size="lg"
+                        onClick={handleBookNow}
+                        className="w-100 shadow"
+                        style={{ borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
+                      >
+                        Book Now
+                      </Button>
+                      <p className="text-muted x-small mt-2" style={{ fontSize: '0.75rem' }}>
+                        *You will be redirected to our AI Assistant to finalize details.
+                      </p>
                     </div>
                   </div>
                 </Col>
