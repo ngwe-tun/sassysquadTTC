@@ -55,6 +55,36 @@
 }
 
 /* ========================================
+   DARK MODE VARIABLES
+   ======================================== */
+
+.dark-mode {
+  --color-primary: #60A5FA;
+  /* Lighter blue for dark mode */
+  --color-secondary: #93C5FD;
+  /* Even lighter blue */
+  --color-accent: #60A5FA;
+  /* Bright blue */
+  --color-background: #0F172A;
+  /* Dark slate background */
+  --color-text: #F1F5F9;
+  /* Light text */
+  --color-text-muted: #94A3B8;
+  /* Muted light text */
+  --color-border: #334155;
+  /* Dark border */
+  --color-white: #1E293B;
+  /* Dark card background */
+  --color-emergency: #F87171;
+  /* Lighter red for dark mode */
+
+  /* Shadows for dark mode */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
    GLOBAL OVERRIDES
    ======================================== */
 
@@ -63,6 +93,7 @@ body {
   background-color: var(--color-background);
   font-size: var(--font-size-base);
   line-height: 1.6;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* Professional Card Styling */
@@ -270,4 +301,215 @@ footer {
   background-color: var(--color-primary);
   color: white;
   border-color: var(--color-primary);
+}
+
+/* ========================================
+   DARK MODE COMPONENT OVERRIDES
+   ======================================== */
+
+/* Dark mode card backgrounds */
+.dark-mode .card,
+.dark-mode .bg-white {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Dark mode card headers */
+.dark-mode .card-header {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  border-bottom-color: var(--color-border) !important;
+}
+
+/* Dark mode navbar */
+.dark-mode .navbar {
+  background-color: var(--color-white) !important;
+  border-bottom-color: var(--color-border) !important;
+}
+
+.dark-mode .navbar-brand {
+  color: var(--color-primary) !important;
+}
+
+.dark-mode .nav-link {
+  color: var(--color-text) !important;
+}
+
+.dark-mode .nav-link:hover {
+  color: var(--color-accent) !important;
+}
+
+/* Dark mode buttons */
+.dark-mode .btn-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.dark-mode .btn-primary:hover {
+  background-color: var(--color-secondary) !important;
+  border-color: var(--color-secondary) !important;
+}
+
+.dark-mode .btn-outline-dark,
+.dark-mode .btn-outline-primary {
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+  background-color: transparent !important;
+}
+
+.dark-mode .btn-outline-dark:hover,
+.dark-mode .btn-outline-primary:hover {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* Dark mode form controls */
+.dark-mode .form-control,
+.dark-mode .form-select {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.dark-mode .form-control::placeholder {
+  color: var(--color-text-muted) !important;
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-text) !important;
+}
+
+/* Dark mode tables */
+.dark-mode .table {
+  color: var(--color-text) !important;
+  background-color: transparent !important;
+}
+
+.dark-mode .table thead {
+  border-bottom-color: var(--color-border) !important;
+}
+
+.dark-mode .table tbody tr {
+  border-bottom-color: var(--color-border) !important;
+}
+
+.dark-mode .table tbody tr:hover {
+  background-color: rgba(96, 165, 250, 0.1) !important;
+}
+
+/* Dark mode text utilities */
+.dark-mode .text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: var(--color-text) !important;
+}
+
+.dark-mode p {
+  color: var(--color-text) !important;
+}
+
+/* Dark mode footer */
+.dark-mode footer {
+  background-color: var(--color-white) !important;
+  border-top-color: var(--color-border) !important;
+  color: var(--color-text-muted) !important;
+}
+
+/* Dark mode badges */
+.dark-mode .badge {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* Dark mode emergency widget */
+.dark-mode .emergency-card-header {
+  background-color: var(--color-emergency) !important;
+}
+
+/* Dark mode specific overrides for inline styles */
+.dark-mode [style*="background-color: #FFFFFF"],
+.dark-mode [style*="background-color: white"],
+.dark-mode [style*="background: white"] {
+  background-color: var(--color-white) !important;
+}
+
+/* Dark mode for Bootstrap's bg-light utility */
+.dark-mode .bg-light {
+  background-color: var(--color-white) !important;
+}
+
+/* Dark mode navbar toggler */
+.dark-mode .navbar-toggler {
+  border-color: var(--color-border) !important;
+}
+
+.dark-mode .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* Dark mode list groups */
+.dark-mode .list-group-item {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.dark-mode .list-group-item:hover {
+  background-color: rgba(96, 165, 250, 0.1) !important;
+}
+
+/* Dark mode alerts */
+.dark-mode .alert {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+/* Dark mode modals */
+.dark-mode .modal-content {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.dark-mode .modal-header {
+  background-color: var(--color-white) !important;
+  border-bottom-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.dark-mode .modal-title {
+  color: var(--color-text) !important;
+}
+
+.dark-mode .modal-body {
+  background-color: var(--color-white) !important;
+  color: var(--color-text) !important;
+}
+
+.dark-mode .modal-footer {
+  background-color: var(--color-white) !important;
+  border-top-color: var(--color-border) !important;
+}
+
+.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Ensure smooth transitions for all dark mode changes */
+.dark-mode * {
+  transition: background-color var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
 }

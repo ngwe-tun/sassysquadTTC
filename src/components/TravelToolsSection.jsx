@@ -173,7 +173,7 @@ const TravelToolsSection = () => {
                             <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Packing List</Card.Title>
 
                             <Form.Group className="mb-2">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Trip Duration (days)</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Trip Duration (days)</Form.Label>
                                 <Form.Control
                                     type="number"
                                     size="sm"
@@ -184,7 +184,7 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Trip Type</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Trip Type</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={tripType}
@@ -228,7 +228,7 @@ const TravelToolsSection = () => {
                             <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Budget Calculator</Card.Title>
 
                             <Form.Group className="mb-2">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Trip Duration (days)</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Trip Duration (days)</Form.Label>
                                 <Form.Control
                                     type="number"
                                     size="sm"
@@ -239,7 +239,7 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-2">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Destination</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Destination</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={budgetDestination}
@@ -252,7 +252,7 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Travel Style</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Travel Style</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={budgetStyle}
@@ -302,7 +302,7 @@ const TravelToolsSection = () => {
                             <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Distance</Card.Title>
 
                             <Form.Group className="mb-2">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>From</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>From</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={fromCity}
@@ -315,7 +315,7 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>To</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>To</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={toCity}
@@ -359,7 +359,7 @@ const TravelToolsSection = () => {
                             <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Thai Phrases</Card.Title>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Select Phrase</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Select Phrase</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={selectedPhrase}

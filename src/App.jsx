@@ -7,6 +7,8 @@ import CurrencyWidget from './components/CurrencyWidget';
 import EmergencyWidget from './components/EmergencyWidget';
 import TravelToolsSection from './components/TravelToolsSection';
 import { useState, useRef, useEffect } from 'react';
+import { DarkModeProvider } from './context/DarkModeContext';
+import DarkModeToggle from './components/DarkModeToggle';
 
 const Home = () => (
   <Container className="py-5">
@@ -101,38 +103,43 @@ const Chat = () => {
 
 function App() {
   return (
-    <Router>
-      {/* Navbar: Sticky & branded */}
-      <Navbar bg="white" variant="light" expand="lg" className="mb-4 sticky-top">
-        <Container>
-          <Navbar.Brand as={Link} to="/" className="fw-bold">
-            Sassy Squad
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/" className="px-3">Home</Nav.Link>
-              <Nav.Link as={Link} to="/chat" className="px-3">Chat AI</Nav.Link>
-              <Nav.Link as={Link} to="/tours" className="px-3">Tours</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
+    <DarkModeProvider>
+      <Router>
+        {/* Navbar: Sticky & branded */}
+        <Navbar bg="white" variant="light" expand="lg" className="mb-4 sticky-top">
+          <Container>
+            <Navbar.Brand as={Link} to="/" className="fw-bold">
+              Sassy Squad
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ms-auto d-flex align-items-center">
+                <Nav.Link as={Link} to="/" className="px-3">Home</Nav.Link>
+                <Nav.Link as={Link} to="/chat" className="px-3">Chat AI</Nav.Link>
+                <Nav.Link as={Link} to="/tours" className="px-3">Tours</Nav.Link>
+                <div className="d-flex align-items-center ms-lg-3 ms-0 mt-lg-0 mt-2">
+                  <DarkModeToggle />
+                </div>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        {/* Main Layout Container */}
+        <Container style={{ minHeight: '80vh' }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/tours" element={<Tours />} />
+          </Routes>
         </Container>
-      </Navbar>
 
-      {/* Main Layout Container */}
-      <Container style={{ minHeight: '80vh' }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/tours" element={<Tours />} />
-        </Routes>
-      </Container>
-
-      {/* Footer */}
-      <footer className="text-center mt-5">
-        <p className="mb-0" style={{ fontSize: 'var(--font-size-sm)' }}>© 2026 Sassy Squad Travel. Built with React & Gemini AI.</p>
-      </footer>
-    </Router>
+        {/* Footer */}
+        <footer className="text-center mt-5">
+          <p className="mb-0" style={{ fontSize: 'var(--font-size-sm)' }}>© 2026 Sassy Squad Travel. Built with React & Gemini AI.</p>
+        </footer>
+      </Router>
+    </DarkModeProvider>
   );
 }
 

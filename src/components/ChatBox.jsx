@@ -163,11 +163,12 @@ User Question: ${messageText}`;
             <div
               className={`p-3 shadow-sm ${msg.sender === "user"
                 ? "text-white"
-                : "bg-white text-dark border"
+                : "bg-white border"
                 }`}
               style={{
                 maxWidth: '75%',
                 backgroundColor: msg.sender === "user" ? 'var(--color-primary)' : 'var(--color-white)',
+                color: msg.sender === "user" ? '#FFFFFF' : 'var(--color-text)',
                 borderRadius: 'var(--radius-md)',
                 fontSize: 'var(--font-size-base)',
                 lineHeight: '1.6'

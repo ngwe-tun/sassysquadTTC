@@ -176,16 +176,16 @@ const Tours = () => {
                     </Badge>
                   ))}
                 </div>
-                <Card.Title className="fw-bold fs-5">{pkg.title}</Card.Title>
-                <div className="d-flex align-items-center text-muted small mb-3">
+                <Card.Title className="fw-bold fs-5" style={{ color: 'var(--color-text)' }}>{pkg.title}</Card.Title>
+                <div className="d-flex align-items-center small mb-3" style={{ color: 'var(--color-text-muted)' }}>
                   <FaClock className="me-1" /> {pkg.duration}
                   <span className="mx-2">•</span>
                   <FaMapMarkerAlt className="me-1" /> Thailand
                 </div>
                 <div className="mt-auto d-flex justify-content-between align-items-center">
                   <div>
-                    <span className="text-muted small d-block">From</span>
-                    <span className="fw-bold fs-5 text-primary">{pkg.price}</span>
+                    <span className="small d-block" style={{ color: 'var(--color-text-muted)' }}>From</span>
+                    <span className="fw-bold fs-5" style={{ color: 'var(--color-primary)' }}>{pkg.price}</span>
                   </div>
                   <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>View Details</Button>
                 </div>
@@ -200,7 +200,7 @@ const Tours = () => {
         {selectedTour && (
           <>
             <Modal.Header closeButton className="border-0 pb-0">
-              <Modal.Title className="fw-bold">{selectedTour.title}</Modal.Title>
+              <Modal.Title className="fw-bold" style={{ color: 'var(--color-text)' }}>{selectedTour.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body className="px-4">
               <img
@@ -213,16 +213,16 @@ const Tours = () => {
               <Row>
                 {/* Left: Itinerary Timeline */}
                 <Col md={7}>
-                  <h5 className="fw-bold mb-4 d-flex align-items-center"><FaCamera className="me-2 text-primary" />Experience Highlights</h5>
-                  <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: '#e9ecef' }}>
+                  <h5 className="fw-bold mb-4 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCamera className="me-2" style={{ color: 'var(--color-primary)' }} />Experience Highlights</h5>
+                  <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: 'var(--color-border)' }}>
                     {selectedTour.itinerary.map((item, index) => (
                       <div key={index} className="mb-4 position-relative">
                         <span
-                          className="position-absolute bg-white border border-primary border-2 rounded-circle"
-                          style={{ width: '16px', height: '16px', left: '-33px', top: '4px' }}
+                          className="position-absolute border border-2 rounded-circle"
+                          style={{ width: '16px', height: '16px', left: '-33px', top: '4px', backgroundColor: 'var(--color-white)', borderColor: 'var(--color-primary)' }}
                         ></span>
-                        <strong className="d-block text-dark">{item.time}</strong>
-                        <span className="text-muted">{item.activity}</span>
+                        <strong className="d-block" style={{ color: 'var(--color-text)' }}>{item.time}</strong>
+                        <span style={{ color: 'var(--color-text-muted)' }}>{item.activity}</span>
                       </div>
                     ))}
                   </div>
@@ -230,11 +230,11 @@ const Tours = () => {
 
                 {/* Right: Pricing & Inclusions Box */}
                 <Col md={5}>
-                  <div className="bg-light p-4 rounded-4 h-100 border">
-                    <h6 className="fw-bold mb-3 d-flex align-items-center"><FaCheckCircle className="me-2 text-success" />What's Included</h6>
+                  <div className="p-4 rounded-4 h-100 border" style={{ backgroundColor: 'var(--color-background)' }}>
+                    <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCheckCircle className="me-2 text-success" />What's Included</h6>
                     <ul className="list-unstyled mb-4">
                       {selectedTour.inclusions.map((inc, i) => (
-                        <li key={i} className="mb-2 small d-flex align-items-center text-muted">
+                        <li key={i} className="mb-2 small d-flex align-items-center" style={{ color: 'var(--color-text-muted)' }}>
                           <FaCheckCircle className="text-success me-2 flex-shrink-0" /> {inc}
                         </li>
                       ))}
@@ -243,8 +243,8 @@ const Tours = () => {
                     <hr className="my-4" />
 
                     <div className="text-center">
-                      <p className="text-muted small mb-1">Total Price per Person</p>
-                      <h2 className="fw-bold text-primary mb-3">{selectedTour.price}</h2>
+                      <p className="small mb-1" style={{ color: 'var(--color-text-muted)' }}>Total Price per Person</p>
+                      <h2 className="fw-bold mb-3" style={{ color: 'var(--color-primary)' }}>{selectedTour.price}</h2>
                       <Button
                         variant="primary"
                         size="lg"
@@ -254,7 +254,7 @@ const Tours = () => {
                       >
                         Book Now
                       </Button>
-                      <p className="text-muted x-small mt-2" style={{ fontSize: '0.75rem' }}>
+                      <p className="x-small mt-2" style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
                         *You will be redirected to our AI Assistant to finalize details.
                       </p>
                     </div>

@@ -1,0 +1,91 @@
+.dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.dark-mode-toggle:hover {
+    transform: scale(1.05);
+}
+
+.dark-mode-toggle:active {
+    transform: scale(0.95);
+}
+
+.toggle-track {
+    width: 52px;
+    height: 26px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 13px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode-toggle:hover .toggle-track {
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.toggle-thumb {
+    position: absolute;
+    top: 2px;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-thumb.light {
+    left: 2px;
+}
+
+.toggle-thumb.dark {
+    left: 28px;
+}
+
+.toggle-icon {
+    color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.toggle-thumb.dark .toggle-icon {
+    color: #764ba2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .dark-mode-toggle {
+        margin: 0.5rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .toggle-track {
+        width: 48px;
+        height: 24px;
+    }
+
+    .toggle-thumb {
+        width: 20px;
+        height: 20px;
+    }
+
+    .toggle-thumb.dark {
+        left: 26px;
+    }
+
+    .toggle-icon {
+        width: 12px;
+        height: 12px;
+    }
+}
