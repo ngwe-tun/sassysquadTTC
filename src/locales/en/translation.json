@@ -107,6 +107,32 @@
         }
     },
     "footer": {
-        "copyright": "© 2026 Sassy Squad Travel. Built with React & Gemini AI."
+        "copyright": "© 2026 Sassy Squad Travel. Built with React & Gemini AI.",
+        "about": "About Us",
+        "aboutText": "Your all-in-one travel companion for Thailand. We provide essential information, AI-powered assistance, and curated experiences to make your Thailand adventure unforgettable.",
+        "meetTeam": "Meet Our Team",
+        "quickLinks": "Quick Links",
+        "contact": "Contact Us",
+        "followUs": "Follow Us"
+    },
+    "destinations": {
+        "title": "Featured Destinations",
+        "subtitle": "Discover Thailand's most beautiful places",
+        "bangkok": {
+            "name": "Bangkok",
+            "description": "The vibrant capital city with temples, markets, and nightlife"
+        },
+        "phuket": {
+            "name": "Phuket",
+            "description": "Tropical paradise with stunning beaches and crystal waters"
+        },
+        "chiangmai": {
+            "name": "Chiang Mai",
+            "description": "Cultural hub in the mountains with ancient temples"
+        },
+        "pattaya": {
+            "name": "Pattaya",
+            "description": "Beach resort city with entertainment and water sports"
+        }
     }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card, Form, Button, Spinner } from 'react-bootstrap';
-import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa';
+import { FaRobot, FaUser, FaTrashAlt } from 'react-icons/fa';
+import { SendHorizontal } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { getGeminiResponse } from '../services/gemini';
 import { getWeather } from '../services/weather';
@@ -43,29 +44,42 @@ const ChatBox = ({ suggestionInput }) => {
   const location = useLocation();
   const hasAutoSent = useRef(false);
 
-  const [messages, setMessages] = useState([
-    {
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem('sassy_chat_messages');
+    if (savedMessages) {
+      return JSON.parse(savedMessages);
+    }
+    return [{
       id: 1,
       text: t('chat.greeting'),
       sender: "bot"
-    }
-  ]);
+    }];
+  });
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('sassy_chat_messages', JSON.stringify(messages));
+  }, [messages]);
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
   const chatBodyRef = useRef(null);
   const isInitialMount = useRef(true);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTo({
+        top: chatBodyRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   };
 
   useEffect(() => {
-    // On initial mount, scroll to top
     if (isInitialMount.current) {
+      // Instant scroll on first load
       if (chatBodyRef.current) {
-        chatBodyRef.current.scrollTop = 0;
+        chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
       }
       isInitialMount.current = false;
       return;
@@ -145,11 +159,41 @@ User Question: ${messageText}`;
     }
   };
 
+  const handleClearChat = () => {
+    localStorage.removeItem('sassy_chat_messages');
+    setMessages([{
+      id: 1,
+      text: t('chat.greeting'),
+      sender: "bot"
+    }]);
+  };
+
   return (
-    <Card className="shadow-sm border" style={{ maxWidth: '800px', margin: '0 auto', borderRadius: 'var(--radius-lg)' }}>
-      <Card.Header className="d-flex align-items-center gap-2 py-3" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-white)', borderTopLeftRadius: 'var(--radius-lg)', borderTopRightRadius: 'var(--radius-lg)' }}>
-        <FaRobot size={22} />
-        <h5 className="mb-0 fw-semibold">Sassy Squad Assistant</h5>
+    <Card className="h-100 shadow-sm" style={{
+      borderRadius: 'var(--radius-lg)',
+      border: 'none',
+      backgroundColor: 'var(--color-surface)'
+    }}>
+      <Card.Header
+        className="d-flex justify-content-between align-items-center py-3 px-4"
+        style={{
+          backgroundColor: 'white',
+          borderBottom: '1px solid var(--color-border)',
+          borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0'
+        }}
+      >
+        <div className="d-flex align-items-center gap-2">
+          <FaRobot size={24} color="var(--color-primary)" />
+          <h5 className="mb-0 fw-bold" style={{ color: 'var(--color-primary)' }}>Sassy AI</h5>
+        </div>
+        <Button
+          variant="link"
+          className="text-muted p-0 hover-danger transition"
+          onClick={handleClearChat}
+          title="Clear Chat"
+        >
+          <FaTrashAlt size={16} />
+        </Button>
       </Card.Header>
 
       <Card.Body
@@ -195,7 +239,7 @@ User Question: ${messageText}`;
             {t('chat.typing')}
           </div>
         )}
-        <div ref={messagesEndRef} />
+
       </Card.Body>
 
       <Card.Footer className="bg-white p-3" style={{ borderBottomLeftRadius: 'var(--radius-lg)', borderBottomRightRadius: 'var(--radius-lg)', borderTop: '1px solid var(--color-border)' }}>
@@ -215,17 +259,18 @@ User Question: ${messageText}`;
           />
           <Button
             type="submit"
-            className="d-flex align-items-center justify-content-center"
+            className="d-flex align-items-center justify-content-center p-0 transition"
+            variant="link"
             style={{
               width: '45px',
               height: '45px',
-              borderRadius: 'var(--radius-sm)',
-              backgroundColor: 'var(--color-primary)',
-              borderColor: 'var(--color-primary)'
+              borderRadius: '50%',
+              color: 'var(--color-primary)',
+              textDecoration: 'none'
             }}
             disabled={isLoading}
           >
-            <FaPaperPlane />
+            <SendHorizontal size={24} />
           </Button>
         </Form>
       </Card.Footer>
