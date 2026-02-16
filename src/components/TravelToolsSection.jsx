@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Card, Row, Col, Form, Button, ListGroup, Badge } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const TravelToolsSection = () => {
+    const { t } = useTranslation();
     // Packing List State
     const [tripDuration, setTripDuration] = useState('');
     const [tripType, setTripType] = useState('beach');
@@ -162,15 +164,15 @@ const TravelToolsSection = () => {
 
     return (
         <div className="my-5">
-            <h2 className="text-center mb-2 fw-bold" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-2xl)' }}>Travel Tools</h2>
-            <p className="text-center mb-5" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)' }}>Essential utilities to plan your Thailand adventure</p>
+            <h2 className="text-center mb-2 fw-bold" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-2xl)' }}>{t('travelTools.title')}</h2>
+            <p className="text-center mb-5" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)' }}>{t('travelTools.subtitle')}</p>
 
             <Row className="g-4">
                 {/* Packing List Generator */}
                 <Col md={6} lg={3}>
                     <Card className="h-100 shadow-sm border hover-lift">
                         <Card.Body>
-                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Packing List</Card.Title>
+                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>{t('travelTools.packingList')}</Card.Title>
 
                             <Form.Group className="mb-2">
                                 <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Trip Duration (days)</Form.Label>
@@ -184,16 +186,16 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Trip Type</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>{t('travelTools.tripType')}</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={tripType}
                                     onChange={(e) => setTripType(e.target.value)}
                                 >
-                                    <option value="beach">Beach</option>
-                                    <option value="city">City Tour</option>
-                                    <option value="mountain">Mountain</option>
-                                    <option value="cultural">Cultural</option>
+                                    <option value="beach">{t('tripTypes.beach')}</option>
+                                    <option value="city">{t('tripTypes.city')}</option>
+                                    <option value="mountain">{t('tripTypes.mountain')}</option>
+                                    <option value="cultural">{t('tripTypes.cultural')}</option>
                                 </Form.Select>
                             </Form.Group>
 
@@ -203,7 +205,7 @@ const TravelToolsSection = () => {
                                 className="w-100 mb-3"
                                 onClick={generatePackingList}
                             >
-                                Generate List
+                                {t('buttons.generateList')}
                             </Button>
 
                             {packingList.length > 0 && (
@@ -225,7 +227,7 @@ const TravelToolsSection = () => {
                 <Col md={6} lg={3}>
                     <Card className="h-100 shadow-sm border hover-lift">
                         <Card.Body>
-                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Budget Calculator</Card.Title>
+                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>{t('travelTools.budgetCalculator')}</Card.Title>
 
                             <Form.Group className="mb-2">
                                 <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Trip Duration (days)</Form.Label>
@@ -239,7 +241,7 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-2">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Destination</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>{t('travelTools.destination')}</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={budgetDestination}
@@ -252,15 +254,15 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Travel Style</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>{t('travelTools.travelStyle')}</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={budgetStyle}
                                     onChange={(e) => setBudgetStyle(e.target.value)}
                                 >
-                                    <option value="budget">Budget</option>
-                                    <option value="moderate">Moderate</option>
-                                    <option value="luxury">Luxury</option>
+                                    <option value="budget">{t('travelStyles.budget')}</option>
+                                    <option value="moderate">{t('travelStyles.moderate')}</option>
+                                    <option value="luxury">{t('travelStyles.luxury')}</option>
                                 </Form.Select>
                             </Form.Group>
 
@@ -270,7 +272,7 @@ const TravelToolsSection = () => {
                                 className="w-100 mb-3"
                                 onClick={calculateBudget}
                             >
-                                Calculate Budget
+                                {t('buttons.calculateBudget')}
                             </Button>
 
                             {budgetEstimate && (
@@ -289,7 +291,7 @@ const TravelToolsSection = () => {
                             )}
 
                             <div className="mt-3 text-center" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                                Includes accommodation, food, transport & activities
+                                {t('travelTools.budgetIncludes')}
                             </div>
                         </Card.Body>
                     </Card>
@@ -299,10 +301,10 @@ const TravelToolsSection = () => {
                 <Col md={6} lg={3}>
                     <Card className="h-100 shadow-sm border hover-lift">
                         <Card.Body>
-                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Distance</Card.Title>
+                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>{t('travelTools.distance')}</Card.Title>
 
                             <Form.Group className="mb-2">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>From</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>{t('travelTools.from')}</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={fromCity}
@@ -315,7 +317,7 @@ const TravelToolsSection = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>To</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>{t('travelTools.to')}</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={toCity}
@@ -333,7 +335,7 @@ const TravelToolsSection = () => {
                                 className="w-100 mb-3"
                                 onClick={calculateDistance}
                             >
-                                Calculate Distance
+                                {t('buttons.calculateDistance')}
                             </Button>
 
                             {distance && (
@@ -356,10 +358,10 @@ const TravelToolsSection = () => {
                 <Col md={6} lg={3}>
                     <Card className="h-100 shadow-sm border hover-lift">
                         <Card.Body>
-                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>Thai Phrases</Card.Title>
+                            <Card.Title className="text-center fw-semibold mb-3" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-primary)' }}>{t('travelTools.thaiPhrases')}</Card.Title>
 
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>Select Phrase</Form.Label>
+                                <Form.Label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text)' }}>{t('travelTools.selectPhrase')}</Form.Label>
                                 <Form.Select
                                     size="sm"
                                     value={selectedPhrase}
@@ -381,14 +383,14 @@ const TravelToolsSection = () => {
                                         <div className="mb-1" style={{ fontSize: 'var(--font-size-2xl)' }}>{thaiPhrases[selectedPhrase].thai}</div>
                                     </div>
                                     <div className="text-center">
-                                        <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>Pronunciation:</div>
+                                        <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{t('travelTools.pronunciation')}:</div>
                                         <div className="fw-semibold" style={{ color: 'var(--color-primary)' }}>{thaiPhrases[selectedPhrase].phonetic}</div>
                                     </div>
                                 </div>
                             )}
 
                             <div className="text-center" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                                {Object.keys(thaiPhrases).length} essential phrases available
+                                {Object.keys(thaiPhrases).length} {t('travelTools.phrasesAvailable')}
                             </div>
                         </Card.Body>
                     </Card>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaClock, FaMapMarkerAlt, FaStar, FaCheckCircle, FaBus, FaUtensils, FaCamera } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 // --- EXPANDED TOUR CATALOG (6 Items) ---
 const tourPackages = [
@@ -123,6 +124,7 @@ const tourPackages = [
 ];
 
 const Tours = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedTour, setSelectedTour] = useState(null);
@@ -144,10 +146,10 @@ const Tours = () => {
     <Container className="py-5">
       <div className="text-center mb-5">
         <h1 className="fw-bold mb-2" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-2xl)' }}>
-          Thailand Tour Packages
+          {t('tours.title')}
         </h1>
         <p className="mb-0" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)', maxWidth: '600px', margin: '0 auto' }}>
-          Curated experiences for every type of traveler
+          {t('tours.subtitle')}
         </p>
       </div>
 
@@ -187,7 +189,7 @@ const Tours = () => {
                     <span className="small d-block" style={{ color: 'var(--color-text-muted)' }}>From</span>
                     <span className="fw-bold fs-5" style={{ color: 'var(--color-primary)' }}>{pkg.price}</span>
                   </div>
-                  <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>View Details</Button>
+                  <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>{t('buttons.viewDetails')}</Button>
                 </div>
               </Card.Body>
             </Card>
@@ -213,7 +215,7 @@ const Tours = () => {
               <Row>
                 {/* Left: Itinerary Timeline */}
                 <Col md={7}>
-                  <h5 className="fw-bold mb-4 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCamera className="me-2" style={{ color: 'var(--color-primary)' }} />Experience Highlights</h5>
+                  <h5 className="fw-bold mb-4 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCamera className="me-2" style={{ color: 'var(--color-primary)' }} />{t('tours.experienceHighlights')}</h5>
                   <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: 'var(--color-border)' }}>
                     {selectedTour.itinerary.map((item, index) => (
                       <div key={index} className="mb-4 position-relative">
@@ -231,7 +233,7 @@ const Tours = () => {
                 {/* Right: Pricing & Inclusions Box */}
                 <Col md={5}>
                   <div className="p-4 rounded-4 h-100 border" style={{ backgroundColor: 'var(--color-background)' }}>
-                    <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCheckCircle className="me-2 text-success" />What's Included</h6>
+                    <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCheckCircle className="me-2 text-success" />{t('tours.whatsIncluded')}</h6>
                     <ul className="list-unstyled mb-4">
                       {selectedTour.inclusions.map((inc, i) => (
                         <li key={i} className="mb-2 small d-flex align-items-center" style={{ color: 'var(--color-text-muted)' }}>
@@ -243,7 +245,7 @@ const Tours = () => {
                     <hr className="my-4" />
 
                     <div className="text-center">
-                      <p className="small mb-1" style={{ color: 'var(--color-text-muted)' }}>Total Price per Person</p>
+                      <p className="small mb-1" style={{ color: 'var(--color-text-muted)' }}>{t('travelTools.totalPrice')}</p>
                       <h2 className="fw-bold mb-3" style={{ color: 'var(--color-primary)' }}>{selectedTour.price}</h2>
                       <Button
                         variant="primary"
@@ -252,10 +254,10 @@ const Tours = () => {
                         className="w-100 shadow"
                         style={{ borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)' }}
                       >
-                        Book Now
+                        {t('buttons.bookNow')}
                       </Button>
                       <p className="x-small mt-2" style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                        *You will be redirected to our AI Assistant to finalize details.
+                        {t('tours.bookingNote')}
                       </p>
                     </div>
                   </div>

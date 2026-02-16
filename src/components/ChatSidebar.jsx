@@ -1,6 +1,8 @@
 import { Card, Badge } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const ChatSidebar = ({ onSuggestionClick }) => {
+    const { t } = useTranslation();
     const quickSuggestions = [
         "What's the weather in Bangkok?",
         "Best time to visit Thailand",
@@ -10,8 +12,8 @@ const ChatSidebar = ({ onSuggestionClick }) => {
     ];
 
     const travelTips = [
-        { title: "Visa Requirements", text: "Most tourists get 30-day visa on arrival" },
-        { title: "Currency", text: "Thai Baht (฿). ATMs widely available" },
+        { title: t('chat.visaRequirements'), text: t('chat.visaInfo') },
+        { title: "Currency", text: t('chat.currencyInfo') },
         { title: "Language", text: "English spoken in tourist areas" },
         { title: "Transportation", text: "Grab, taxis, BTS/MRT in Bangkok" }
     ];
@@ -26,7 +28,7 @@ const ChatSidebar = ({ onSuggestionClick }) => {
             <Card className="shadow-sm border">
                 <Card.Body style={{ padding: 'var(--spacing-lg)' }}>
                     <h6 className="fw-semibold mb-3" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-base)' }}>
-                        Quick Suggestions
+                        {t('chat.quickSuggestions')}
                     </h6>
                     <div className="d-flex flex-column gap-2">
                         {quickSuggestions.map((suggestion, idx) => (
@@ -54,7 +56,7 @@ const ChatSidebar = ({ onSuggestionClick }) => {
             <Card className="shadow-sm border">
                 <Card.Body style={{ padding: 'var(--spacing-lg)' }}>
                     <h6 className="fw-semibold mb-3" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-base)' }}>
-                        Popular Destinations
+                        {t('chat.popularDestinations')}
                     </h6>
                     <div className="d-flex flex-wrap gap-2">
                         {popularDestinations.map((dest, idx) => (
@@ -81,7 +83,7 @@ const ChatSidebar = ({ onSuggestionClick }) => {
             <Card className="shadow-sm border">
                 <Card.Body style={{ padding: 'var(--spacing-lg)' }}>
                     <h6 className="fw-semibold mb-3" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-base)' }}>
-                        Quick Tips
+                        {t('chat.quickTips')}
                     </h6>
                     <div className="d-flex flex-column gap-3">
                         {travelTips.map((tip, idx) => (

@@ -2,8 +2,10 @@
 import { useState, useEffect } from 'react';
 import { Card, Table, Spinner } from 'react-bootstrap';
 import { FaSync } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const CurrencyWidget = () => {
+  const { t } = useTranslation();
   const [rates, setRates] = useState(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState("");
@@ -41,7 +43,7 @@ const CurrencyWidget = () => {
   return (
     <Card className="shadow-sm h-100 border">
       <Card.Header className="d-flex justify-content-between align-items-center">
-        <h6 className="mb-0 fw-semibold">Exchange Rates (THB)</h6>
+        <h6 className="mb-0 fw-semibold">{t('widgets.exchangeRates')}</h6>
         <button
           onClick={fetchRates}
           className="btn btn-sm btn-link p-0"
@@ -55,8 +57,8 @@ const CurrencyWidget = () => {
         <Table className="mb-0 text-center" style={{ fontSize: 'var(--font-size-sm)' }}>
           <thead style={{ backgroundColor: 'var(--color-background)' }}>
             <tr>
-              <th style={{ fontWeight: 500, color: 'var(--color-text-muted)', padding: 'var(--spacing-sm)' }}>Currency</th>
-              <th style={{ fontWeight: 500, color: 'var(--color-text-muted)', padding: 'var(--spacing-sm)' }}>Rate (THB)</th>
+              <th style={{ fontWeight: 500, color: 'var(--color-text-muted)', padding: 'var(--spacing-sm)' }}>{t('widgets.currency')}</th>
+              <th style={{ fontWeight: 500, color: 'var(--color-text-muted)', padding: 'var(--spacing-sm)' }}>{t('widgets.rate')}</th>
             </tr>
           </thead>
           <tbody>
@@ -86,7 +88,7 @@ const CurrencyWidget = () => {
         </Table>
       </Card.Body>
       <Card.Footer className="text-center" style={{ backgroundColor: 'var(--color-white)', borderTop: '1px solid var(--color-border)', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', padding: 'var(--spacing-sm)' }}>
-        Updated: {lastUpdated}
+        {t('widgets.updated')}: {lastUpdated}
       </Card.Footer>
     </Card>
   );

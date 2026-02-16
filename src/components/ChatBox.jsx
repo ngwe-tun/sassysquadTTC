@@ -4,6 +4,7 @@ import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { getGeminiResponse } from '../services/gemini';
 import { getWeather } from '../services/weather';
+import { useTranslation } from 'react-i18next';
 
 // Weather Icon Helper
 import { WiDaySunny, WiCloudy, WiRain, WiSnow, WiFog, WiNightAltPartlyCloudy } from "react-icons/wi";
@@ -38,13 +39,14 @@ const extractCityFromMessage = (message) => {
 };
 
 const ChatBox = ({ suggestionInput }) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const hasAutoSent = useRef(false);
 
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I am your Sassy Squad travel assistant. How can I help you with your Thailand trip today?",
+      text: t('chat.greeting'),
       sender: "bot"
     }
   ]);
@@ -190,7 +192,7 @@ User Question: ${messageText}`;
         {isLoading && (
           <div className="small ms-2 d-flex align-items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
             <Spinner animation="grow" size="sm" style={{ color: 'var(--color-primary)' }} />
-            Sassy Squad is typing...
+            {t('chat.typing')}
           </div>
         )}
         <div ref={messagesEndRef} />
@@ -200,7 +202,7 @@ User Question: ${messageText}`;
         <Form onSubmit={handleSend} className="d-flex gap-2">
           <Form.Control
             type="text"
-            placeholder="Ask me anything about Thailand..."
+            placeholder={t('chat.placeholder')}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="px-4 shadow-none"

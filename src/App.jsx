@@ -84,10 +84,10 @@ const Chat = () => {
       {/* Professional Header */}
       <div className="text-center mb-4">
         <h1 className="fw-bold mb-2" style={{ color: 'var(--color-primary)', fontSize: 'var(--font-size-2xl)' }}>
-          AI Travel Assistant
+          {t('chat.title')}
         </h1>
         <p className="mb-0" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)', maxWidth: '600px', margin: '0 auto' }}>
-          Get instant answers about Thailand travel, weather, destinations, and personalized recommendations
+          {t('chat.subtitle')}
         </p>
       </div>
 
@@ -144,7 +144,7 @@ function App() {
 
         {/* Footer */}
         <footer className="text-center mt-5">
-          <p className="mb-0" style={{ fontSize: 'var(--font-size-sm)' }}>© 2026 Sassy Squad Travel. Built with React & Gemini AI.</p>
+          <p className="mb-0" style={{ fontSize: 'var(--font-size-sm)' }}>{t('footer.copyright')}</p>
         </footer>
       </Router>
     </DarkModeProvider>
