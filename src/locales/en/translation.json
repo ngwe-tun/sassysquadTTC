@@ -1,0 +1,87 @@
+{
+    "nav": {
+        "home": "Home",
+        "chat": "Chat AI",
+        "tours": "Tours"
+    },
+    "hero": {
+        "title": "Explore Thailand with Sassy Squad",
+        "subtitle": "Your centralized platform for instant responses, hotel bookings, and intelligent recommendations."
+    },
+    "buttons": {
+        "startChat": "Start AI Chat",
+        "browseTours": "Browse Tours",
+        "generateList": "Generate List",
+        "calculateBudget": "Calculate Budget",
+        "calculateDistance": "Calculate Distance",
+        "viewDetails": "View Details",
+        "bookNow": "Book Now",
+        "askAI": "Ask AI"
+    },
+    "widgets": {
+        "exchangeRates": "Exchange Rates (THB)",
+        "currency": "Currency",
+        "rate": "Rate (THB)",
+        "updated": "Updated",
+        "emergency": "Emergency Assistance",
+        "emergencyDesc": "Tap any number below to call directly. English-speaking support available.",
+        "touristPolice": "Tourist Police",
+        "ambulance": "Ambulance",
+        "fireDepartment": "Fire Department",
+        "needGuidance": "Need Guidance?",
+        "guidanceDesc": "Get immediate translation or safety advice from our AI assistant."
+    },
+    "travelTools": {
+        "title": "Travel Tools",
+        "subtitle": "Essential utilities to plan your Thailand adventure",
+        "packingList": "Packing List",
+        "budgetCalculator": "Budget Calculator",
+        "distance": "Distance",
+        "thaiPhrases": "Thai Phrases",
+        "tripDuration": "Trip Duration (days)",
+        "tripType": "Trip Type",
+        "destination": "Destination",
+        "travelStyle": "Travel Style",
+        "from": "From",
+        "to": "To",
+        "selectPhrase": "Select Phrase",
+        "phrasesAvailable": "essential phrases available",
+        "budgetIncludes": "Includes accommodation, food, transport & activities",
+        "pronunciation": "Pronunciation",
+        "totalPrice": "Total Price per Person"
+    },
+    "tripTypes": {
+        "beach": "Beach",
+        "city": "City Tour",
+        "mountain": "Mountain",
+        "cultural": "Cultural"
+    },
+    "travelStyles": {
+        "budget": "Budget",
+        "moderate": "Moderate",
+        "luxury": "Luxury"
+    },
+    "chat": {
+        "title": "AI Travel Assistant",
+        "subtitle": "Get instant answers about Thailand travel, weather, destinations, and personalized recommendations",
+        "placeholder": "Ask me anything about Thailand...",
+        "greeting": "Hello! I am your Sassy Squad travel assistant. How can I help you with your Thailand trip today?",
+        "typing": "Sassy Squad is typing...",
+        "quickSuggestions": "Quick Suggestions",
+        "popularDestinations": "Popular Destinations",
+        "quickTips": "Quick Tips",
+        "visaRequirements": "Visa Requirements",
+        "visaInfo": "Most tourists get 30-day visa on arrival",
+        "currencyInfo": "Thai Baht (฿). ATMs widely available"
+    },
+    "tours": {
+        "title": "Discover Thailand",
+        "subtitle": "Handpicked experiences for every traveler",
+        "experienceHighlights": "Experience Highlights",
+        "whatsIncluded": "What's Included",
+        "bookingNote": "*You will be redirected to our AI Assistant to finalize details."
+    },
+    "footer": {
+        "copyright": "© 2026 Sassy Squad Travel. Built with React & Gemini AI."
+    }
+}
