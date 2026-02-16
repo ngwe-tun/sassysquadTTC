@@ -3,6 +3,7 @@ import ChatSidebar from './components/ChatSidebar';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Container, Navbar, Nav, Button, Row, Col } from 'react-bootstrap';
 import Tours from './pages/Tours';
+import Team from './pages/Team';
 import CurrencyWidget from './components/CurrencyWidget';
 import EmergencyWidget from './components/EmergencyWidget';
 import TravelToolsSection from './components/TravelToolsSection';
@@ -124,6 +125,7 @@ function App() {
                 <Nav.Link as={Link} to="/" className="px-3">{t('nav.home')}</Nav.Link>
                 <Nav.Link as={Link} to="/chat" className="px-3">{t('nav.chat')}</Nav.Link>
                 <Nav.Link as={Link} to="/tours" className="px-3">{t('nav.tours')}</Nav.Link>
+                <Nav.Link as={Link} to="/team" className="px-3">{t('nav.team')}</Nav.Link>
                 <div className="d-flex align-items-center gap-2 ms-lg-3 ms-0 mt-lg-0 mt-2">
                   <LanguageSwitcher />
                   <DarkModeToggle />
@@ -139,6 +141,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/tours" element={<Tours />} />
+            <Route path="/team" element={<Team />} />
           </Routes>
         </Container>
 
